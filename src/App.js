@@ -5,20 +5,20 @@ import ContinueButton from './component/continueButton';
 import Button from './Button';
 import styles from './App.module.css';
 import Background from './Background';
+import Greeting from './Greeting';
 
 function App() {
-  const name = 'Hyeongyun';
   console.log('App component rendered'); // 디버그 메시지 추가
 
   return (
     <div className="App">
       <Background />
-      <NameQuestion />
-      <UnderBar />
-      <PleaseEnter />
-      <ContinueButton />
+      <Greeting />
+      {/* <NameQuestion /> */}
+      {/* <UnderBar /> */}
+      {/* <PleaseEnter /> */}
+      {/* <ContinueButton /> */}
       <Button text="Continue" />
-      <h1 className={styles.title}>Hello {name}!</h1>
     </div>
   );
 }

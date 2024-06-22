@@ -1,0 +1,36 @@
+.greeting-container {
+    text-align: center;
+  }
+  
+.greeting-form h1 {
+    font-size: 24px;
+    color: white;
+    margin-bottom: 20px;
+}
+  .greeting-input {
+    padding: 10px;
+    font-size: 16px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .greeting-button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .greeting-button:hover {
+    background-color: #45a049;
+  }
+  
+  .greeting-message {
+    font-size: 28px;
+    color: #333;
+  }
