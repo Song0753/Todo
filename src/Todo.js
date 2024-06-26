@@ -2,10 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./Todo.module.css";
 
-function Todo({ todo, toggleTodo, addToDoneList }) {
+function Todo({ todo, toggleTodo}) {
   function handleTodoClick() {
     toggleTodo(todo.id);
-    addToDoneList(todo);
   }
 
   if (!todo) {
@@ -35,7 +34,6 @@ Todo.propTypes = {
     complete: PropTypes.bool.isRequired,
   }).isRequired,
   toggleTodo: PropTypes.func.isRequired,
-  addToDoneList: PropTypes.func.isRequired,
 };
 
 export default Todo;

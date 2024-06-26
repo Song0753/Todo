@@ -4,23 +4,29 @@ import Todo from "./Todo";
 import styles from "./TodoList.module.css";
 
 function TodoList({ username }) {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState(() => {
+    const storedTodos = JSON.parse(localStorage.getItem(`todos_${username}`));
+    return storedTodos || [];
+  });
+  const [doneList, setDoneList] = useState(() => {
+    const storedDoneList = JSON.parse(
+      localStorage.getItem(`donelist_${username}`)
+    );
+    return storedDoneList || [];
+  });
+
   const [newTodoName, setNewTodoName] = useState("");
-  const [doneList, setDoneList] = useState([]);
 
-  // 로컬 스토리지에서 todos 불러오기
+  // 로컬 스토리지에서 todos와 doneList 불러오기 및 저장하기
   useEffect(() => {
-    const storedTodos =
-      JSON.parse(localStorage.getItem(`todos_${username}`)) || [];
-    setTodos(storedTodos);
-  }, [username]);
-
-  // 로컬 스토리지에서 doneList 불러오기
-  useEffect(() => {
-    const storedDoneList =
-      JSON.parse(localStorage.getItem(`donelist_${username}`)) || [];
-    setDoneList(storedDoneList);
-  }, []);
+    // 로컬 스토리지에서 불러오기
+    const storedTodos = JSON.parse(localStorage.getItem(`todos_${username}`));
+    const storedDoneList = JSON.parse(
+      localStorage.getItem(`donelist_${username}`)
+    );
+    if (storedTodos) setTodos(storedTodos);
+    if (storedDoneList) setDoneList(storedDoneList);
+  }, [username]); // username이 변경될 때만 실행
 
   // todos가 변경될 때 로컬 스토리지에 저장하기
   useEffect(() => {
@@ -45,7 +51,8 @@ function TodoList({ username }) {
       name: newTodoName,
       complete: false,
     };
-    setTodos([...todos, newTodo]);
+
+    setTodos((prevTodos) => [...prevTodos, newTodo]);
     setNewTodoName("");
   };
 
@@ -54,11 +61,9 @@ function TodoList({ username }) {
       todo.id === id ? { ...todo, complete: !todo.complete } : todo
     );
     setTodos(updatedTodos);
-  };
-  const addToDoneList = (todo) => {
-    const updatedTodos = todos.filter((t) => t.id !== todo.id);
-    setTodos(updatedTodos);
-    setDoneList([...doneList, todo]);
+    // doneList를 업데이트하는 로직
+    const updatedDoneList = updatedTodos.filter((todo) => todo.complete);
+    setDoneList(updatedDoneList);
   };
 
   return (
@@ -77,12 +82,7 @@ function TodoList({ username }) {
       </form>
       <div className={styles["todo-items"]}>
         {todos.map((todo) => (
-          <Todo
-            key={todo.id}
-            todo={todo}
-            toggleTodo={toggleTodo}
-            addToDoneList={addToDoneList}
-          />
+          <Todo key={todo.id} todo={todo} toggleTodo={toggleTodo} />
         ))}
       </div>
     </div>
